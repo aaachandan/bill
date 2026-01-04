@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RAY SERVICES | BILL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    background:#eef2f6;
+    font-family:"Segoe UI", Arial, sans-serif;
+    color:#222;
+}
+.wrapper{display:flex;justify-content:center}
+.page{
+    width:190mm;
+    margin:10mm;
+    background:#fff;
+    padding:10mm 12mm;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+/* TITLE */
+.title{text-align:center;font-size:20px;font-weight:900;margin-bottom:6px}
+
+/* META */
+.meta-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:6px;
+}
+.meta-line input{
+    border:none;
+    border-bottom:1px solid #999;
+    width:150px;
+    font-size:13px;
+}
+
+/* TOP */
+.top{
+    display:flex;
+    gap:14px;
+    border-bottom:2px solid #2c5364;
+    padding-bottom:6px;
+}
+.box{width:50%;font-size:13.5px}
+.box b{font-size:14.5px}
+.box p{margin:2px 0}
+.box input{
+    width:100%;
+    border:none;
+    border-bottom:1px solid #999;
+    font-size:13.5px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+    font-size:13.5px;
+    table-layout:fixed;
+}
+th,td{border:1px solid #aaa;padding:6px}
+th{text-align:center}
+.col-desc{text-align:left;width:51%}
+.col-sno{width:8%}
+.col-qty{width:13%}
+.col-rate{width:14%}
+.col-amt{width:14%}
+td input{
+    width:100%;
+    border:none;
+    text-align:center;
+}
+td.col-desc input{text-align:left}
+
+/* TOTAL */
+.total-label{
+    text-align:center;
+    font-weight:800;
+    background:#f8fafc;
+}
+.total-amount input{
+    font-weight:800;
+    text-align:center;
+}
+
+/* TEXT */
+.amount-words{margin-top:6px;font-weight:700}
+.thankyou{
+    margin-top:10px;
+    font-size:13px;
+    text-align:center;
+    font-weight:600;
+}
+.declaration{
+    margin-top:8px;
+    font-size:12.5px;
+    line-height:1.5;
+}
+
+/* ACCOUNT + QR */
+.pay-wrap{
+    display:grid;
+    grid-template-columns:1fr 140px;
+    gap:12px;
+    margin-top:10px;
+    border-top:1px dashed #aaa;
+    padding-top:8px;
+}
+.pay-box{
+    font-size:13px;
+    line-height:1.6;
+}
+.qr-box{text-align:center}
+.qr-box img{width:130px;height:130px;border:1px solid #ccc}
+
+/* BUTTONS */
+.btn{
+    padding:6px 14px;
+    border:none;
+    cursor:pointer;
+    font-size:13px;
+}
+.add-row{
+    background:#e3eef6;
+    border:1px solid #9bbcd1;
+    margin-top:6px;
+}
+.pdf-btn{
+    margin:10px auto 0;
+    display:block;
+    background:#2c5364;
+    color:#fff;
+}
+
+@media print{
+    body{background:#fff}
+    .btn{display:none}
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+<div class="page" id="bill">
+
+<div class="title">BILL / INVOICE</div>
+
+<div class="meta-line">
+    <div><b>Bill No:</b> <input value="D/R/C/01"></div>
+    <div><b>Date:</b> <input id="date" readonly></div>
+</div>
+
+<div class="top">
+    <div class="box">
+        <b>RAY SERVICES</b>
+        <p>Ayodhya Nagar, Santoshi Nagar</p>
+        <p>Mathpurena, Raipur 492013 (C.G.)</p>
+        <p>Email: rayservices.cg@gmail.com</p>
+        <p>Mobile: 7746969000</p>
+    </div>
+    <div class="box">
+        <b>Client Details</b>
+        <input placeholder="Client Name">
+        <input placeholder="Mobile Number">
+        <input placeholder="Address">
+    </div>
+</div>
+
+<table id="billTable">
+<thead>
+<tr>
+    <th class="col-sno">S.No</th>
+    <th class="col-desc">Service Description</th>
+    <th class="col-qty">Qty / Sq Ft</th>
+    <th class="col-rate">Rate (₹)</th>
+    <th class="col-amt">Amount (₹)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+    <td class="col-sno"><input value="1"></td>
+    <td class="col-desc"><input></td>
+    <td class="col-qty"><input type="number" step="0.01" oninput="calc(this)"></td>
+    <td class="col-rate"><input type="number" step="0.01" oninput="calc(this)"></td>
+    <td class="col-amt"><input class="amt" readonly></td>
+</tr>
+</tbody>
+
+<tr>
+    <td colspan="4" class="total-label">TOTAL</td>
+    <td class="col-amt total-amount"><input id="grand" readonly></td>
+</tr>
+</table>
+
+<button class="btn add-row" onclick="addRow()">+ Add Row</button>
+
+<div class="amount-words" id="amountWords">
+Amount in Words: Rupees Zero Only
+</div>
+
+<div class="thankyou">
+Thank you for choosing to do business with us. We are committed to providing you with excellent service.
+If you have any questions or concerns, please feel free to contact us.
+</div>
+
+<div class="declaration">
+<b>Declaration:</b><br>
+We declare that this invoice shows the actual price of the services described
+and that all particulars are true and correct.
+</div>
+
+<div class="pay-wrap">
+    <div class="pay-box">
+        <b>Our Account Details</b><br>
+        A/c Holder Name : <b>Ray Services</b><br>
+        A/c No : 120037895682<br>
+        IFSC Code : CNRB0005778<br>
+        MSME : UDYAM-CG-14-0116772
+    </div>
+    <div class="qr-box">
+        <b>Scan to Pay</b><br>
+        <img id="qr">
+        <div style="font-size:11px">UPI: rayservices@cnrb</div>
+    </div>
+</div>
+
+<button class="btn pdf-btn" onclick="downloadPDF()">📄 Download Bill PDF</button>
+
+</div>
+</div>
+
+<script>
+const d=new Date();
+document.getElementById("date").value=
+String(d.getDate()).padStart(2,'0')+"/"+
+String(d.getMonth()+1).padStart(2,'0')+"/"+
+d.getFullYear();
+
+let rowNo = 1;
+
+function addRow(){
+    rowNo++;
+    let tr=document.createElement("tr");
+    tr.innerHTML=`
+        <td class="col-sno"><input value="${rowNo}"></td>
+        <td class="col-desc"><input></td>
+        <td class="col-qty"><input type="number" step="0.01" oninput="calc(this)"></td>
+        <td class="col-rate"><input type="number" step="0.01" oninput="calc(this)"></td>
+        <td class="col-amt"><input class="amt" readonly></td>`;
+    document.querySelector("#billTable tbody").appendChild(tr);
+}
+
+function calc(el){
+    let r=el.closest("tr");
+    let q=r.cells[2].querySelector("input").value||0;
+    let rt=r.cells[3].querySelector("input").value||0;
+    r.cells[4].querySelector("input").value=(q*rt).toFixed(2);
+    total();
+}
+
+function numberToWords(num){
+    if(num===0) return "Zero";
+    const a=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
+    "Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+    const b=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+    function w(n){
+        if(n<20) return a[n];
+        if(n<100) return b[Math.floor(n/10)]+" "+a[n%10];
+        if(n<1000) return a[Math.floor(n/100)]+" Hundred "+w(n%100);
+        if(n<100000) return w(Math.floor(n/1000))+" Thousand "+w(n%1000);
+        if(n<10000000) return w(Math.floor(n/100000))+" Lakh "+w(n%100000);
+        return w(Math.floor(n/10000000))+" Crore "+w(n%10000000);
+    }
+    return w(num).trim();
+}
+
+function total(){
+    let sum=0;
+    document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
+    document.getElementById("grand").value=sum.toFixed(2);
+    document.getElementById("amountWords").innerText=
+        "Amount in Words: Rupees "+numberToWords(Math.round(sum))+" Only";
+
+    document.getElementById("qr").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+
+    encodeURIComponent("upi://pay?pa=rayservices@cnrb&pn=Ray Services&am="+sum+"&cu=INR");
+}
+
+function downloadPDF(){
+    total();
+    html2pdf().set({
+        margin:0,
+        filename:'Ray_Services_Bill.pdf',
+        html2canvas:{scale:3},
+        jsPDF:{unit:'mm',format:'a4'}
+    }).from(document.getElementById("bill")).save();
+}
+</script>
+
+</body>
+</html>
