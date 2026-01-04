@@ -98,6 +98,13 @@ td.col-desc input{text-align:left}
     font-size:12.5px;
     line-height:1.5;
 }
+.thankyou{
+    margin-top:6px;
+    font-size:12px;
+    color:#555;
+    text-align:center;
+    font-style:italic;
+}
 
 /* ACCOUNT + QR */
 .pay-wrap{
@@ -114,15 +121,6 @@ td.col-desc input{text-align:left}
 }
 .qr-box{text-align:center}
 .qr-box img{width:130px;height:130px;border:1px solid #ccc}
-
-/* THANK YOU */
-.thankyou{
-    margin-top:14px;
-    font-size:12px;
-    color:#555;
-    text-align:center;
-    font-style:italic;
-}
 
 /* BUTTONS */
 .btn{
@@ -216,6 +214,12 @@ We declare that this invoice shows the actual price of the services described
 and that all particulars are true and correct.
 </div>
 
+<!-- THANK YOU JUST BELOW DECLARATION -->
+<div class="thankyou">
+Thank you for choosing to do business with us. We are committed to providing you with excellent service.
+If you have any questions or concerns, please feel free to contact us.
+</div>
+
 <div class="pay-wrap">
     <div class="pay-box">
         <b>Our Account Details</b><br>
@@ -229,11 +233,6 @@ and that all particulars are true and correct.
         <img id="qr">
         <div style="font-size:11px">UPI: rayservices@cnrb</div>
     </div>
-</div>
-
-<div class="thankyou">
-Thank you for choosing to do business with us. We are committed to providing you with excellent service.
-If you have any questions or concerns, please feel free to contact us.
 </div>
 
 <button class="btn pdf-btn" onclick="downloadPDF()">📄 Download Bill PDF</button>
