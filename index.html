@@ -93,12 +93,6 @@ td.col-desc input{text-align:left}
 
 /* TEXT */
 .amount-words{margin-top:6px;font-weight:700}
-.thankyou{
-    margin-top:10px;
-    font-size:13px;
-    text-align:center;
-    font-weight:600;
-}
 .declaration{
     margin-top:8px;
     font-size:12.5px;
@@ -120,6 +114,15 @@ td.col-desc input{text-align:left}
 }
 .qr-box{text-align:center}
 .qr-box img{width:130px;height:130px;border:1px solid #ccc}
+
+/* THANK YOU */
+.thankyou{
+    margin-top:14px;
+    font-size:12px;
+    color:#555;
+    text-align:center;
+    font-style:italic;
+}
 
 /* BUTTONS */
 .btn{
@@ -207,11 +210,6 @@ td.col-desc input{text-align:left}
 Amount in Words: Rupees Zero Only
 </div>
 
-<div class="thankyou">
-Thank you for choosing to do business with us. We are committed to providing you with excellent service.
-If you have any questions or concerns, please feel free to contact us.
-</div>
-
 <div class="declaration">
 <b>Declaration:</b><br>
 We declare that this invoice shows the actual price of the services described
@@ -233,6 +231,11 @@ and that all particulars are true and correct.
     </div>
 </div>
 
+<div class="thankyou">
+Thank you for choosing to do business with us. We are committed to providing you with excellent service.
+If you have any questions or concerns, please feel free to contact us.
+</div>
+
 <button class="btn pdf-btn" onclick="downloadPDF()">📄 Download Bill PDF</button>
 
 </div>
@@ -245,7 +248,7 @@ String(d.getDate()).padStart(2,'0')+"/"+
 String(d.getMonth()+1).padStart(2,'0')+"/"+
 d.getFullYear();
 
-let rowNo = 1;
+let rowNo=1;
 
 function addRow(){
     rowNo++;
